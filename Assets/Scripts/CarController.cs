@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CarController : MonoBehaviour
@@ -7,6 +8,9 @@ public class CarController : MonoBehaviour
     [SerializeField] private Transform[] rayPoints; // 자동차 바퀴 위치
     [SerializeField] private LayerMask groundLayer; // 지면 레이어
     [SerializeField] private Transform accelerationPoint; // 가속력 적용 지점
+    [SerializeField] private GameObject[] tires = new GameObject[4]; // 바퀴 오브젝트
+    [SerializeField] private GameObject[] frontTireParents = new GameObject[2]; // 앞바퀴 좌우 회전 오브젝트
+
 
     [Header("서스펜션 설정")]
     [SerializeField] private float springStiffness; // 스프링 강성
@@ -14,10 +18,6 @@ public class CarController : MonoBehaviour
     [SerializeField] private float restLength; // 스프링 정지 길이
     [SerializeField] private float springTravel; // 스프링 이동 거리
     [SerializeField] private float wheelRadius; // 바퀴 반지름
-
-    private int[] wheelsIsGrounded = new int[4]; // 바퀴 접지 여부
-    private bool isGrounded = false; // 자동차 접지 여부
-
 
     [Header("입력")]
     private float moveInput = 0;
@@ -31,9 +31,15 @@ public class CarController : MonoBehaviour
     [SerializeField] private AnimationCurve turningCurve; // 속도에 따른 조향 곡선
     [SerializeField] private float dragCoefficient = 1f; // 공기 저항 계수
 
-
     private Vector3 currentCarLocalVelocity = Vector3.zero;
     private float carVelocityRatio = 0f;    
+
+    private int[] wheelsIsGrounded = new int[4]; // 바퀴 접지 여부
+    private bool isGrounded = false; // 자동차 접지 여부
+
+    [Header("비쥬얼")]
+    [SerializeField] private float tireRotSpeed = 3000f; // 바퀴 회전 속도
+    [SerializeField] private float maxSteerAngle = 30f; // 최대 조향 각도
 
     private void Start()
     {
@@ -46,6 +52,7 @@ public class CarController : MonoBehaviour
         GroundCheck();
         CalulateCarVelocity();
         Movement();
+        Visuals();
     }
 
     private void Update()
@@ -106,9 +113,9 @@ public class CarController : MonoBehaviour
         for (int i = 0; i < rayPoints.Length; i++)
         {
             RaycastHit hit;
-            float maxLength = restLength + springTravel;
+            float maxDistance = restLength;// + springTravel;
 
-            if (Physics.Raycast(rayPoints[i].position, -rayPoints[i].up, out hit, maxLength + wheelRadius, groundLayer))
+            if (Physics.Raycast(rayPoints[i].position, -rayPoints[i].up, out hit, maxDistance + wheelRadius, groundLayer))
             {
                 wheelsIsGrounded[i] = 1;
 
@@ -124,14 +131,20 @@ public class CarController : MonoBehaviour
 
                 carRB.AddForceAtPosition(netForce * rayPoints[i].up, rayPoints[i].position);
 
+                // Visuals (바퀴 회전)
+                SetTirePosition(tires[i], hit.point + rayPoints[i].up * wheelRadius);
+
                 Debug.DrawLine(rayPoints[i].position, hit.point, Color.red);
             }
             else
             {
                 wheelsIsGrounded[i] = 0;
 
+                // Visuals (바퀴 회전)
+                SetTirePosition(tires[i], rayPoints[i].position - rayPoints[i].up * maxDistance);
+
                 Debug.DrawLine(rayPoints[i].position,
-                    rayPoints[i].position + (wheelRadius + maxLength) * -rayPoints[i].up, Color.green);
+                    rayPoints[i].position + (wheelRadius + maxDistance) * -rayPoints[i].up, Color.green);
             }
         }
     }
@@ -167,7 +180,7 @@ public class CarController : MonoBehaviour
 
     #endregion
 
-    #region Input Handling
+    #region Input Management
     
     private void GetPlayerInput()
     {
@@ -176,4 +189,39 @@ public class CarController : MonoBehaviour
     }
 
     #endregion
+
+    #region Visuals
+
+    private void Visuals()
+    {
+        TireVisuals();
+    }
+
+    private void TireVisuals()
+    {
+        float steeringAngle = maxSteerAngle * steerInput;
+
+        for (int i = 0; i < tires.Length; i++)
+        {
+            tires[i].transform.Rotate(Vector3.right,
+                    tireRotSpeed * carVelocityRatio * Time.deltaTime, Space.Self);
+
+            if (i < 2)
+            {
+                frontTireParents[i].transform.localEulerAngles = new Vector3(
+                    frontTireParents[i].transform.localEulerAngles.x,
+                    steeringAngle,
+                    frontTireParents[i].transform.localEulerAngles.z);
+            }
+        }
+    }
+
+
+    private void SetTirePosition(GameObject tire, Vector3 targetPosition)
+    {
+        tire.transform.position = targetPosition;
+    }
+
+    #endregion
+
 }

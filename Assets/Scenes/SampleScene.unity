@@ -699,8 +699,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1708386024}
-  - component: {fileID: 1708386023}
   - component: {fileID: 1708386022}
+  - component: {fileID: 1708386023}
   m_Layer: 0
   m_Name: Car
   m_TagString: Untagged
@@ -717,8 +717,8 @@ Rigidbody:
   m_GameObject: {fileID: 1708386021}
   serializedVersion: 4
   m_Mass: 1000
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_Drag: 0.2
+  m_AngularDrag: 10
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -765,6 +765,50 @@ MonoBehaviour:
   acceleration: 25
   maxSpeed: 100
   deceleration: 10
+  steelStrength: 30
+  turningCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.081810415
+      value: 0.3478724
+      inSlope: 3.5993733
+      outSlope: 3.5993733
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.34359062
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.5886644
+      value: 0.9979328
+      inSlope: -0.008162632
+      outSlope: -0.008162632
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.58266604
+    - serializedVersion: 3
+      time: 1
+      value: 0.8521042
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  dragCoefficient: 1
 --- !u!4 &1708386024
 Transform:
   m_ObjectHideFlags: 0

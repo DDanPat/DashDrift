@@ -27,6 +27,10 @@ public class CarController : MonoBehaviour
     [SerializeField] private float acceleration = 25f; // 가속도
     [SerializeField] private float maxSpeed = 100f; // 최대 속도
     [SerializeField] private float deceleration = 10f; // 감속도
+    [SerializeField] private float steelStrength = 15f; // 조향 강도(바퀴 좌우 회전 각도)
+    [SerializeField] private AnimationCurve turningCurve; // 속도에 따른 조향 곡선
+    [SerializeField] private float dragCoefficient = 1f; // 공기 저항 계수
+
 
     private Vector3 currentCarLocalVelocity = Vector3.zero;
     private float carVelocityRatio = 0f;    
@@ -57,6 +61,8 @@ public class CarController : MonoBehaviour
         {
             Acceleration();
             Decelration();
+            Trun();
+            SidewaysDrag();
         }
     }
 
@@ -72,6 +78,23 @@ public class CarController : MonoBehaviour
         carRB.AddForceAtPosition(deceleration * moveInput * - transform.forward,
             accelerationPoint.position,
             ForceMode.Acceleration);
+    }
+
+    private void Trun()
+    {
+        carRB.AddTorque(steelStrength * steerInput * turningCurve.Evaluate(carVelocityRatio) * 
+            Mathf.Sign(carVelocityRatio) * transform.up, ForceMode.Acceleration);
+    }
+
+    private void SidewaysDrag()
+    {
+        float currentsidewaySpeed = currentCarLocalVelocity.x;
+
+        float dragMagnitude = -currentsidewaySpeed * dragCoefficient;
+
+        Vector3 dragForce = transform.right * dragMagnitude;
+
+        carRB.AddForceAtPosition(dragForce, accelerationPoint.position, ForceMode.Acceleration);
     }
 
     #endregion

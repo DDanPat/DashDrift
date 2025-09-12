@@ -66,14 +66,41 @@ public class CarController : MonoBehaviour
 
     private void Movement()
     {
-        if (isGrounded)
+        //if (isGrounded)
+        //{
+        //    Acceleration();
+        //    Decelration();
+        //    Trun();
+        //    SidewaysDrag();
+        //    if (isBraking) { Brake(); }
+        //}
+
+        if (!isGrounded) return;
+
+        float fwdSpeed = Vector3.Dot(carRB.linearVelocity, transform.forward);
+        bool hasInput = Mathf.Abs(moveInput) > 0.01f;
+        bool oppositeToVelocity = hasInput && Mathf.Abs(fwdSpeed) > 0.5f && Mathf.Sign(moveInput) != Mathf.Sign(fwdSpeed);
+
+        if (isBraking)
         {
-            Acceleration();
-            Decelration();
-            Trun();
-            SidewaysDrag();
+            Brake();
         }
-        if (isBraking) { Brake(); }
+        else if (oppositeToVelocity)
+        {
+            // 반대 입력은 우선 감속
+            Brake();
+        }
+        else
+        {
+            if (hasInput)
+                Acceleration();
+            else
+                Decelration(); // 입력 없을 때만 엔진브레이크처럼 동작
+        }
+
+        Trun();
+        SidewaysDrag();
+
     }
     
     private void Acceleration()
@@ -85,19 +112,33 @@ public class CarController : MonoBehaviour
 
     private void Brake()
     {
-        if (carRB.linearVelocity.magnitude > 0.1f)
-        {
-            carRB.AddForceAtPosition(brakeForce * -transform.forward,
-                accelerationPoint.position,
-                ForceMode.Acceleration);
-        }
-    }
+        //if (carRB.linearVelocity.magnitude > 0.1f)
+        //{
+        //    carRB.AddForceAtPosition(brakeForce * -transform.forward,
+        //        accelerationPoint.position,
+        //        ForceMode.Acceleration);
+        //}
+        float fwdSpeed = Vector3.Dot(carRB.linearVelocity, transform.forward);
+        if (Mathf.Abs(fwdSpeed) < 0.1f) return; // 정지 근처면 밀지 않음
+
+        Vector3 brakeDir = -Mathf.Sign(fwdSpeed) * transform.forward; // 속도의 반대
+        carRB.AddForceAtPosition(brakeForce * brakeDir, accelerationPoint.position, ForceMode.Acceleration);
+}
 
     private void Decelration()
     {
-        carRB.AddForceAtPosition(deceleration * moveInput * - transform.forward,
-            accelerationPoint.position,
-            ForceMode.Acceleration);
+        //carRB.AddForceAtPosition(deceleration * moveInput * - transform.forward,
+        //    accelerationPoint.position,
+        //    ForceMode.Acceleration);
+
+        if (Mathf.Abs(moveInput) > 0.01f) return; // 입력 있으면 엔진브레이크 비활성
+
+        float fwdSpeed = Vector3.Dot(carRB.linearVelocity, transform.forward);
+        if (Mathf.Abs(fwdSpeed) < 0.1f) return;
+
+        Vector3 dragDir = -Mathf.Sign(fwdSpeed) * transform.forward;
+        carRB.AddForceAtPosition(deceleration * dragDir, accelerationPoint.position, ForceMode.Acceleration);
+
     }
 
     private void Trun()

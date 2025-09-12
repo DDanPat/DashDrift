@@ -22,9 +22,11 @@ public class CarController : MonoBehaviour
     [Header("입력")]
     private float moveInput = 0;
     private float steerInput = 0;
+    private bool isBraking = false;
 
     [Header("자동차 설정")]
     [SerializeField] private float acceleration = 25f; // 가속도
+    [SerializeField] private float brakeForce = 10f; // 제동력
     [SerializeField] private float maxSpeed = 100f; // 최대 속도
     [SerializeField] private float deceleration = 10f; // 감속도
     [SerializeField] private float steelStrength = 15f; // 조향 강도(바퀴 좌우 회전 각도)
@@ -71,13 +73,24 @@ public class CarController : MonoBehaviour
             Trun();
             SidewaysDrag();
         }
+        if (isBraking) { Brake(); }
     }
-
+    
     private void Acceleration()
     {
         carRB.AddForceAtPosition(acceleration * moveInput * transform.forward,
             accelerationPoint.position,
             ForceMode.Acceleration);
+    }
+
+    private void Brake()
+    {
+        if (carRB.linearVelocity.magnitude > 0.1f)
+        {
+            carRB.AddForceAtPosition(brakeForce * -transform.forward,
+                accelerationPoint.position,
+                ForceMode.Acceleration);
+        }
     }
 
     private void Decelration()
@@ -89,8 +102,20 @@ public class CarController : MonoBehaviour
 
     private void Trun()
     {
-        carRB.AddTorque(steelStrength * steerInput * turningCurve.Evaluate(carVelocityRatio) * 
-            Mathf.Sign(carVelocityRatio) * transform.up, ForceMode.Acceleration);
+        //carRB.AddTorque(steelStrength * steerInput * turningCurve.Evaluate(carVelocityRatio) * 
+        //    Mathf.Sign(carVelocityRatio) * transform.up, ForceMode.Acceleration);
+
+
+        // 전진/후진 방향에 따라 핸들 조작 방향을 일치시키기 위해
+        // steerInput에 carVelocityRatio의 부호를 곱한다.
+        float effectiveSteerInput = steerInput * Mathf.Sign(carVelocityRatio);
+
+        // turningCurve.Evaluate에는 속도의 절댓값을 전달하여 회전력의 크기를 조절한다.
+        // 예를 들어, 속도가 낮을 때 더 잘 꺾이게 할 수 있다.
+        float turningForce = steelStrength * effectiveSteerInput * turningCurve.Evaluate(Mathf.Abs(carVelocityRatio));
+
+        // 토크를 적용한다.
+        carRB.AddTorque(turningForce * transform.up, ForceMode.Acceleration);
     }
 
     private void SidewaysDrag()
@@ -181,11 +206,13 @@ public class CarController : MonoBehaviour
     #endregion
 
     #region Input Management
-    
+
+    // TODO : Input System으로 변경
     private void GetPlayerInput()
     {
         moveInput = Input.GetAxis("Vertical");
         steerInput = Input.GetAxis("Horizontal");
+        isBraking = Input.GetKey(KeyCode.Space);
     }
 
     #endregion

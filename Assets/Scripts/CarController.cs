@@ -23,15 +23,20 @@ public class CarController : MonoBehaviour
     private float moveInput = 0;
     private float steerInput = 0;
     private bool isBraking = false;
+    private bool isDrifting = false;
 
     [Header("자동차 설정")]
-    [SerializeField] private float acceleration = 25f; // 가속도
+    [SerializeField, Tooltip("가속도")] private float acceleration = 25f; // 가속도
     [SerializeField] private float brakeForce = 10f; // 제동력
     [SerializeField] private float maxSpeed = 100f; // 최대 속도
-    [SerializeField] private float deceleration = 10f; // 감속도
+    [SerializeField] private float deceleration = 5f; // 감속도
     [SerializeField] private float steelStrength = 15f; // 조향 강도(바퀴 좌우 회전 각도)
     [SerializeField] private AnimationCurve turningCurve; // 속도에 따른 조향 곡선
     [SerializeField] private float dragCoefficient = 1f; // 공기 저항 계수
+
+    [Header("드리프트 설정")]
+    [SerializeField] private float driftStrength = 0.5f; // 0에서 1 사이의 값으로 조절 가능
+    [SerializeField] private float driftTurnMultiplier = 2.5f; // 드리프트 시 조향력 배수
 
     private Vector3 currentCarLocalVelocity = Vector3.zero;
     private float carVelocityRatio = 0f;    
@@ -66,15 +71,6 @@ public class CarController : MonoBehaviour
 
     private void Movement()
     {
-        //if (isGrounded)
-        //{
-        //    Acceleration();
-        //    Decelration();
-        //    Trun();
-        //    SidewaysDrag();
-        //    if (isBraking) { Brake(); }
-        //}
-
         if (!isGrounded) return;
 
         float fwdSpeed = Vector3.Dot(carRB.linearVelocity, transform.forward);
@@ -100,7 +96,6 @@ public class CarController : MonoBehaviour
 
         Trun();
         SidewaysDrag();
-
     }
     
     private void Acceleration()
@@ -127,18 +122,10 @@ public class CarController : MonoBehaviour
 
     private void Decelration()
     {
-        //carRB.AddForceAtPosition(deceleration * moveInput * - transform.forward,
-        //    accelerationPoint.position,
-        //    ForceMode.Acceleration);
-
-        if (Mathf.Abs(moveInput) > 0.01f) return; // 입력 있으면 엔진브레이크 비활성
-
-        float fwdSpeed = Vector3.Dot(carRB.linearVelocity, transform.forward);
-        if (Mathf.Abs(fwdSpeed) < 0.1f) return;
-
-        Vector3 dragDir = -Mathf.Sign(fwdSpeed) * transform.forward;
-        carRB.AddForceAtPosition(deceleration * dragDir, accelerationPoint.position, ForceMode.Acceleration);
-
+        carRB.AddForceAtPosition(deceleration * moveInput * -transform.forward,
+            accelerationPoint.position,
+            ForceMode.Acceleration);
+        
     }
 
     private void Trun()
@@ -155,18 +142,42 @@ public class CarController : MonoBehaviour
         // 예를 들어, 속도가 낮을 때 더 잘 꺾이게 할 수 있다.
         float turningForce = steelStrength * effectiveSteerInput * turningCurve.Evaluate(Mathf.Abs(carVelocityRatio));
 
+        // 드리프트 중일 때 조향력 증가
+        if (isDrifting)
+        {
+            turningForce *= driftTurnMultiplier;
+        }
+
         // 토크를 적용한다.
         carRB.AddTorque(turningForce * transform.up, ForceMode.Acceleration);
     }
 
     private void SidewaysDrag()
     {
+        //float currentsidewaySpeed = currentCarLocalVelocity.x;
+
+        //float dragMagnitude = -currentsidewaySpeed * dragCoefficient;
+
+        //Vector3 dragForce = transform.right * dragMagnitude;
+
+        //carRB.AddForceAtPosition(dragForce, accelerationPoint.position, ForceMode.Acceleration);
+
+        // 현재 차량의 측면 속도 계산
         float currentsidewaySpeed = currentCarLocalVelocity.x;
 
-        float dragMagnitude = -currentsidewaySpeed * dragCoefficient;
+        // 드래그 계수 조정
+        float currentDrag = dragCoefficient;
+        if (isDrifting)
+        {
+            // 드리프트 중에는 드래그 계수를 줄여서 미끄러짐을 허용
+            currentDrag *= driftStrength;
+        }
 
+        // 미끄러짐에 저항하는 힘 계산
+        float dragMagnitude = -currentsidewaySpeed * currentDrag;
         Vector3 dragForce = transform.right * dragMagnitude;
 
+        // 힘 적용
         carRB.AddForceAtPosition(dragForce, accelerationPoint.position, ForceMode.Acceleration);
     }
 
@@ -254,6 +265,7 @@ public class CarController : MonoBehaviour
         moveInput = Input.GetAxis("Vertical");
         steerInput = Input.GetAxis("Horizontal");
         isBraking = Input.GetKey(KeyCode.Space);
+        isDrifting = Input.GetKey(KeyCode.LeftShift);
     }
 
     #endregion

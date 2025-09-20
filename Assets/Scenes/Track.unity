@@ -17088,6 +17088,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   dragCoefficient: 1
+  driftDragReduction: 0.5
+  driftTorque: 20
   tireRotSpeed: 3000
   maxSteerAngle: 30
 --- !u!1 &1391096196202001480

@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -23,6 +24,7 @@ public class CarController : MonoBehaviour
     private float moveInput = 0;
     private float steerInput = 0;
     private bool isBraking = false;
+    private bool isDrifting = false;
 
     [Header("자동차 설정")]
     [SerializeField] private float acceleration = 25f; // 가속도
@@ -38,6 +40,10 @@ public class CarController : MonoBehaviour
 
     private int[] wheelsIsGrounded = new int[4]; // 바퀴 접지 여부
     private bool isGrounded = false; // 자동차 접지 여부
+
+    [Header("드리프트 설정")]
+    [SerializeField] private float driftDragReduction = 0.5f; // 드리프트 시 측면 저항 감소율 (0~1)
+    [SerializeField] private float driftTorque = 50f; // 드리프트 시 추가 회전력
 
     [Header("비쥬얼")]
     [SerializeField] private float tireRotSpeed = 3000f; // 바퀴 회전 속도
@@ -75,7 +81,7 @@ public class CarController : MonoBehaviour
         }
         if (isBraking) { Brake(); }
     }
-    
+
     private void Acceleration()
     {
         carRB.AddForceAtPosition(acceleration * moveInput * transform.forward,
@@ -114,6 +120,13 @@ public class CarController : MonoBehaviour
         // 예를 들어, 속도가 낮을 때 더 잘 꺾이게 할 수 있다.
         float turningForce = steelStrength * effectiveSteerInput * turningCurve.Evaluate(Mathf.Abs(carVelocityRatio));
 
+        // 드리프트 시 측면 저항 감소
+        // 드리프트 중에는 추가적인 회전력 부여
+        if (isDrifting)
+        {
+            turningForce += driftTorque * effectiveSteerInput;
+        }
+
         // 토크를 적용한다.
         carRB.AddTorque(turningForce * transform.up, ForceMode.Acceleration);
     }
@@ -122,8 +135,14 @@ public class CarController : MonoBehaviour
     {
         float currentsidewaySpeed = currentCarLocalVelocity.x;
 
-        float dragMagnitude = -currentsidewaySpeed * dragCoefficient;
+        // 드리프트 중에는 측면 저항을 줄임
+        float currentDragCoefficient = dragCoefficient;
+        if (isDrifting)
+        {
+            currentDragCoefficient *= driftDragReduction;
+        }
 
+        float dragMagnitude = -currentsidewaySpeed * dragCoefficient;
         Vector3 dragForce = transform.right * dragMagnitude;
 
         carRB.AddForceAtPosition(dragForce, accelerationPoint.position, ForceMode.Acceleration);
@@ -213,6 +232,7 @@ public class CarController : MonoBehaviour
         moveInput = Input.GetAxis("Vertical");
         steerInput = Input.GetAxis("Horizontal");
         isBraking = Input.GetKey(KeyCode.Space);
+        isDrifting = Input.GetKey(KeyCode.LeftShift);
     }
 
     #endregion

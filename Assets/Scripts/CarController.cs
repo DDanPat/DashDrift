@@ -26,13 +26,13 @@ public class CarController : MonoBehaviour
     private bool isDrifting = false;
 
     [Header("자동차 설정")]
-    [SerializeField] private float acceleration = 25f; // 가속도
+    [SerializeField] private float acceleration = 15f; // 가속도
     [SerializeField] private float brakeForce = 10f; // 제동력
-    [SerializeField] private float maxSpeed = 100f; // 최대 속도
-    [SerializeField] private float deceleration = 10f; // 감속도
+    [SerializeField] private float maxSpeed = 180f; // 최대 속도
+    [SerializeField] private float deceleration = 5f; // 감속도
     [SerializeField] private float steelStrength = 15f; // 조향 강도(바퀴 좌우 회전 각도)
     [SerializeField] private AnimationCurve turningCurve; // 속도에 따른 조향 곡선
-    [SerializeField] private float dragCoefficient = 1f; // 공기 저항 계수
+    [SerializeField] private float dragCoefficient = 0.8f; // 공기 저항 계수
 
     private Vector3 currentCarLocalVelocity = Vector3.zero;
     private float carVelocityRatio = 0f;    
@@ -42,8 +42,8 @@ public class CarController : MonoBehaviour
 
     [Header("드리프트 설정")]
     [SerializeField] private float driftDragReduction = 0.5f; // 드리프트 시 측면 저항 감소율 (0~1)
-    [SerializeField] private float driftTorque = 50f; // 드리프트 시 추가 회전력
-    [SerializeField] private float driftSteerLerpSpeed = 5f; // 드리프트 시 조향 전환 속도
+    [SerializeField] private float driftTorque = 15f; // 드리프트 시 추가 회전력
+    [SerializeField] private float driftSteerLerpSpeed = 2f; // 드리프트 시 조향 전환 속도
     private float currentSteerAngle = 0f;
 
 

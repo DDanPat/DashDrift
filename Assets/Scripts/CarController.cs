@@ -11,6 +11,9 @@ public class CarController : MonoBehaviour
     [SerializeField] private Transform accelerationPoint; // 가속력 적용 지점
     [SerializeField] private GameObject[] tires = new GameObject[4]; // 바퀴 오브젝트
     [SerializeField] private GameObject[] frontTireParents = new GameObject[2]; // 앞바퀴 좌우 회전 오브젝트
+    [SerializeField] private TrailRenderer[] skidMarks = new TrailRenderer[2]; // 드리프트 시 바닥에 남는 자국
+    [SerializeField] private ParticleSystem[] skidSmokes = new ParticleSystem[2]; // 바퀴 먼지 파티클
+
 
     [Header("서스펜션 설정")]
     [SerializeField] private float springStiffness; // 스프링 강성
@@ -50,6 +53,7 @@ public class CarController : MonoBehaviour
     [Header("비쥬얼")]
     [SerializeField] private float tireRotSpeed = 3000f; // 바퀴 회전 속도
     [SerializeField] private float maxSteerAngle = 30f; // 최대 조향 각도
+    [SerializeField] private float minSideSkidVelocity = 10f;
 
     private void Start()
     {
@@ -250,6 +254,7 @@ public class CarController : MonoBehaviour
     private void Visuals()
     {
         TireVisuals();
+        Vfx();
     }
 
     private void TireVisuals()
@@ -271,6 +276,43 @@ public class CarController : MonoBehaviour
         }
     }
 
+    private void Vfx()
+    {
+        if (isGrounded && isDrifting /*currentCarLocalVelocity.x > minSideSkidVelocity*/)
+        {
+            ToggleSkidMarks(true);
+            ToggleSkidSomkes(true);
+        }
+        else
+        {
+            ToggleSkidMarks(false);
+            ToggleSkidSomkes(false);
+        }
+
+    }
+
+    private void ToggleSkidMarks(bool toggle)
+    {
+        foreach (var skidMark in skidMarks)
+        {
+            skidMark.emitting = toggle;
+        }
+    }
+
+    private void ToggleSkidSomkes(bool toggle)
+    {
+        foreach (var smoke in skidSmokes)
+        {
+            if (toggle)
+            {
+                smoke.Play();
+            }
+            else
+            {
+                smoke.Stop();
+            }
+        }
+    }
 
     private void SetTirePosition(GameObject tire, Vector3 targetPosition)
     {

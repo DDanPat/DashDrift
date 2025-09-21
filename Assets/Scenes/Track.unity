@@ -8543,71 +8543,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8935095989379886729, guid: f5d3c5e0f5f32c141911c08deee9e94d, type: 3}
   m_PrefabInstance: {fileID: 1084681890}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &1089860340
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1949314205}
-    m_Modifications:
-    - target: {fileID: 467173554205048545, guid: 18ab59e03c7a63c4dbfb26d2ca862d41, type: 3}
-      propertyPath: m_RootOrder
-      value: 14
-      objectReference: {fileID: 0}
-    - target: {fileID: 467173554205048545, guid: 18ab59e03c7a63c4dbfb26d2ca862d41, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -32.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 467173554205048545, guid: 18ab59e03c7a63c4dbfb26d2ca862d41, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 467173554205048545, guid: 18ab59e03c7a63c4dbfb26d2ca862d41, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 17.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 467173554205048545, guid: 18ab59e03c7a63c4dbfb26d2ca862d41, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7052864
-      objectReference: {fileID: 0}
-    - target: {fileID: 467173554205048545, guid: 18ab59e03c7a63c4dbfb26d2ca862d41, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.050701372
-      objectReference: {fileID: 0}
-    - target: {fileID: 467173554205048545, guid: 18ab59e03c7a63c4dbfb26d2ca862d41, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.7052871
-      objectReference: {fileID: 0}
-    - target: {fileID: 467173554205048545, guid: 18ab59e03c7a63c4dbfb26d2ca862d41, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0.050701343
-      objectReference: {fileID: 0}
-    - target: {fileID: 467173554205048545, guid: 18ab59e03c7a63c4dbfb26d2ca862d41, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 8.224
-      objectReference: {fileID: 0}
-    - target: {fileID: 467173554205048545, guid: 18ab59e03c7a63c4dbfb26d2ca862d41, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 467173554205048545, guid: 18ab59e03c7a63c4dbfb26d2ca862d41, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 950377666402935899, guid: 18ab59e03c7a63c4dbfb26d2ca862d41, type: 3}
-      propertyPath: m_Name
-      value: Track_line_type_01_30m_free_obs (5)
-      objectReference: {fileID: 0}
-    - target: {fileID: 950377666402935899, guid: 18ab59e03c7a63c4dbfb26d2ca862d41, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 18ab59e03c7a63c4dbfb26d2ca862d41, type: 3}
 --- !u!1001 &1114360093
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14903,7 +14838,6 @@ Transform:
   - {fileID: 104710272}
   - {fileID: 438289651}
   - {fileID: 1196896012}
-  - {fileID: 2027785138}
   - {fileID: 1373578969}
   - {fileID: 1801735783}
   - {fileID: 1724589433}
@@ -15399,11 +15333,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 8935095989379886729, guid: f5d3c5e0f5f32c141911c08deee9e94d, type: 3}
   m_PrefabInstance: {fileID: 2010445577}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &2027785138 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 467173554205048545, guid: 18ab59e03c7a63c4dbfb26d2ca862d41, type: 3}
-  m_PrefabInstance: {fileID: 1089860340}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &2040232993
 GameObject:
@@ -17040,11 +16969,11 @@ MonoBehaviour:
   restLength: 0.3
   springTravel: 0.25
   wheelRadius: 0.37
-  acceleration: 25
+  acceleration: 15
   brakeForce: 10
-  maxSpeed: 100
-  deceleration: 10
-  steelStrength: 30
+  maxSpeed: 120
+  deceleration: 5
+  steelStrength: 15
   turningCurve:
     serializedVersion: 2
     m_Curve:
@@ -17090,6 +17019,7 @@ MonoBehaviour:
   dragCoefficient: 1
   driftDragReduction: 0.5
   driftTorque: 20
+  driftSteerLerpSpeed: 2
   tireRotSpeed: 3000
   maxSteerAngle: 30
 --- !u!1 &1391096196202001480

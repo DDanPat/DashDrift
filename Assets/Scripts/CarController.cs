@@ -44,6 +44,9 @@ public class CarController : MonoBehaviour
     [Header("드리프트 설정")]
     [SerializeField] private float driftDragReduction = 0.5f; // 드리프트 시 측면 저항 감소율 (0~1)
     [SerializeField] private float driftTorque = 50f; // 드리프트 시 추가 회전력
+    [SerializeField] private float driftSteerLerpSpeed = 5f; // 드리프트 시 조향 전환 속도
+    private float currentSteerAngle = 0f;
+
 
     [Header("비쥬얼")]
     [SerializeField] private float tireRotSpeed = 3000f; // 바퀴 회전 속도
@@ -108,19 +111,25 @@ public class CarController : MonoBehaviour
 
     private void Trun()
     {
-        //carRB.AddTorque(steelStrength * steerInput * turningCurve.Evaluate(carVelocityRatio) * 
-        //    Mathf.Sign(carVelocityRatio) * transform.up, ForceMode.Acceleration);
-
+        // 드리프트 중에는 조향값을 점진적으로 변경
+        if (isDrifting)
+        {
+            currentSteerAngle = Mathf.Lerp(currentSteerAngle, steerInput, Time.deltaTime * driftSteerLerpSpeed);
+        }
+        else
+        {
+            // 드리프트가 아닐 때는 즉시 반응하도록
+            currentSteerAngle = steerInput;
+        }
 
         // 전진/후진 방향에 따라 핸들 조작 방향을 일치시키기 위해
         // steerInput에 carVelocityRatio의 부호를 곱한다.
-        float effectiveSteerInput = steerInput * Mathf.Sign(carVelocityRatio);
+        float effectiveSteerInput = currentSteerAngle * Mathf.Sign(carVelocityRatio);
 
         // turningCurve.Evaluate에는 속도의 절댓값을 전달하여 회전력의 크기를 조절한다.
         // 예를 들어, 속도가 낮을 때 더 잘 꺾이게 할 수 있다.
         float turningForce = steelStrength * effectiveSteerInput * turningCurve.Evaluate(Mathf.Abs(carVelocityRatio));
 
-        // 드리프트 시 측면 저항 감소
         // 드리프트 중에는 추가적인 회전력 부여
         if (isDrifting)
         {

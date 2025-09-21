@@ -12,7 +12,6 @@ public class CarController : MonoBehaviour
     [SerializeField] private GameObject[] tires = new GameObject[4]; // 바퀴 오브젝트
     [SerializeField] private GameObject[] frontTireParents = new GameObject[2]; // 앞바퀴 좌우 회전 오브젝트
 
-
     [Header("서스펜션 설정")]
     [SerializeField] private float springStiffness; // 스프링 강성
     [SerializeField] private float damperStiffness; // 댐퍼 강성

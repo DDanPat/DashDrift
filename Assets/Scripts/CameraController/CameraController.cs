@@ -8,11 +8,13 @@ public class CameraController : MonoBehaviour
     public Vector3[] CameraPositions;
     int index = 0;
 
-    public void FixedUpdate()
+    public void Update()
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            index = (index < CameraPositions.Length - 1) ? index++ : 0;
+            Debug.Log("Camera Position Changed");
+            Debug.Log(index);
+            index = (index < CameraPositions.Length - 1) ? index + 1 : 0;
 
             CinemachineFollow.FollowOffset = CameraPositions[index];
         }

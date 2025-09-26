@@ -170,6 +170,7 @@ GameObject:
   - component: {fileID: 5743704393173431441}
   - component: {fileID: 7964010510511078134}
   - component: {fileID: 6363341095641154023}
+  - component: {fileID: 1620270410560404794}
   m_Layer: 0
   m_Name: VCam
   m_TagString: Untagged
@@ -185,14 +186,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2903041498529843672}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.28978416, y: 0, z: 0, w: 0.95709205}
-  m_LocalPosition: {x: 0, y: 8, z: -12}
+  m_LocalRotation: {x: 0.27568254, y: 0, z: 0, w: 0.96124876}
+  m_LocalPosition: {x: 0, y: 5, z: -8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2757462359453404542}
   m_Father: {fileID: 6040983596441223730}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 44.97, y: 0, z: 0}
 --- !u!114 &5743704393173431441
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -254,7 +255,7 @@ MonoBehaviour:
     AngularDampingMode: 0
     RotationDamping: {x: 2, y: 1.5, z: 2}
     QuaternionDamping: 1
-  FollowOffset: {x: 0, y: 8, z: -12}
+  FollowOffset: {x: 0, y: 5, z: -8}
 --- !u!114 &6363341095641154023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,6 +269,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LookAtOffset: {x: 0, y: 0, z: 0}
+--- !u!114 &1620270410560404794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2903041498529843672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44d6f860c1781bf4d91c98e0f6ae81bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CinemachineFollow: {fileID: 7964010510511078134}
+  CameraPositions:
+  - {x: 0, y: 8, z: -12}
+  - {x: 0, y: 2.5, z: -5}
+  - {x: 0, y: 5, z: -8}
 --- !u!1 &3534760457873272754
 GameObject:
   m_ObjectHideFlags: 0
@@ -10801,7 +10819,7 @@ MonoBehaviour:
   springTravel: 0.25
   wheelRadius: 0.37
   acceleration: 30
-  brakeForce: 10
+  brakeForce: 15
   maxSpeed: 180
   deceleration: 5
   steelStrength: 20

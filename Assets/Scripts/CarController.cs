@@ -1,6 +1,7 @@
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CarController : MonoBehaviour
 {
@@ -31,14 +32,14 @@ public class CarController : MonoBehaviour
     [Header("자동차 설정")]
     [SerializeField] private float acceleration = 15f; // 가속도
     [SerializeField] private float brakeForce = 10f; // 제동력
-    [SerializeField] private float maxSpeed = 180f; // 최대 속도
+    [SerializeField] private float maxSpeed = 140f; // 최대 속도
     [SerializeField] private float deceleration = 5f; // 감속도
-    [SerializeField] private float steelStrength = 15f; // 조향 강도(바퀴 좌우 회전 각도)
+    [SerializeField] private float steelStrength = 20f; // 조향 강도(바퀴 좌우 회전 각도)
     [SerializeField] private AnimationCurve turningCurve; // 속도에 따른 조향 곡선
     [SerializeField] private float dragCoefficient = 0.8f; // 공기 저항 계수
 
     private Vector3 currentCarLocalVelocity = Vector3.zero;
-    private float carVelocityRatio = 0f;    
+    private float carVelocityRatio = 0f;
 
     private int[] wheelsIsGrounded = new int[4]; // 바퀴 접지 여부
     private bool isGrounded = false; // 자동차 접지 여부
@@ -55,6 +56,24 @@ public class CarController : MonoBehaviour
     [SerializeField] private float maxSteerAngle = 30f; // 최대 조향 각도
     [SerializeField] private float minSideSkidVelocity = 10f;
 
+    [Header("Input System")]
+    public CarInputSystem carInput { get; private set; }
+    public CarInputSystem.CarActions carActions { get; private set; }
+
+    private void Awake()
+    {
+        carInput = new CarInputSystem();
+        carActions = carInput.Car;
+    }
+    private void OnEnable()
+    {
+        carInput.Enable();
+    }
+
+    private void OnDisable()
+    {
+        carInput.Disable();
+    }
     private void Start()
     {
         carRB = GetComponent<Rigidbody>();
@@ -67,12 +86,50 @@ public class CarController : MonoBehaviour
         CalulateCarVelocity();
         Movement();
         Visuals();
+
+
+        // 데드존 로직
+        StopCarAtLowSpeed();
     }
 
     private void Update()
     {
         GetPlayerInput();
     }
+
+    #region Auto Stop at Low Speed Deadzone
+    private void StopCarAtLowSpeed()
+    {
+        float currentSpeed = carRB.linearVelocity.magnitude;
+
+        // 조건: 입력이 없고 속도가 0.1f 아래일 때
+        bool shouldStop = (moveInput == 0 && currentSpeed < 0.1f);
+
+        if (shouldStop)
+        {
+            // 만약 아직 Kinematic 상태가 아니라면
+            if (!carRB.isKinematic)
+            {
+                // 선형 속도와 각속도를 0으로 설정
+                carRB.linearVelocity = Vector3.zero;
+                carRB.angularVelocity = Vector3.zero;
+
+                // Rigidbody를 Kinematic으로 전환하여 물리 연산에서 제외
+                carRB.isKinematic = true;
+            }
+        }
+        // 조건: 다시 조작이 감지되었을 때
+        else if (moveInput != 0 || steerInput != 0 || isBraking)
+        {
+            // 만약 Kinematic 상태라면 해제
+            if (carRB.isKinematic)
+            {
+                carRB.isKinematic = false;
+            }
+        }
+    }
+
+    #endregion
 
     #region Movement
 
@@ -90,16 +147,34 @@ public class CarController : MonoBehaviour
 
     private void Acceleration()
     {
-        carRB.AddForceAtPosition(acceleration * moveInput * transform.forward,
-            accelerationPoint.position,
-            ForceMode.Acceleration);
+        //carRB.AddForceAtPosition(acceleration * moveInput * transform.forward,
+        //    accelerationPoint.position,
+        //    ForceMode.Acceleration);
+
+        // 현재 속도의 크기를 확인
+        float currentSpeed = carRB.linearVelocity.magnitude;
+
+        // 현재 속도가 maxSpeed보다 작을 경우에만 가속력을 적용
+        if (currentSpeed < maxSpeed)
+        {
+            carRB.AddForceAtPosition(acceleration * moveInput * transform.forward,
+                accelerationPoint.position,
+                ForceMode.Acceleration);
+        }
     }
 
     private void Brake()
     {
-        if (carRB.linearVelocity.magnitude > 0.1f)
+        if (Mathf.Abs(carRB.linearVelocity.magnitude) > 0.1f)
         {
-            carRB.AddForceAtPosition(brakeForce * -transform.forward,
+            // 전진 후진 판단
+            float forwardSpeed = Vector3.Dot(carRB.linearVelocity, transform.forward);
+
+            Vector3 brakeDirection = (forwardSpeed > 0)
+                ? -transform.forward 
+                : transform.forward; 
+
+            carRB.AddForceAtPosition(brakeForce * brakeDirection,
                 accelerationPoint.position,
                 ForceMode.Acceleration);
         }
@@ -241,10 +316,13 @@ public class CarController : MonoBehaviour
     // TODO : Input System으로 변경
     private void GetPlayerInput()
     {
-        moveInput = Input.GetAxis("Vertical");
-        steerInput = Input.GetAxis("Horizontal");
-        isBraking = Input.GetKey(KeyCode.Space);
-        isDrifting = Input.GetKey(KeyCode.LeftShift);
+        Vector2 moveVector = carInput.Car.Move.ReadValue<Vector2>();
+
+        moveInput = moveVector.y;
+        steerInput = moveVector.x;
+
+        isBraking = carInput.Car.Brake.inProgress;
+        isDrifting = carInput.Car.Drift.inProgress;
     }
 
     #endregion
@@ -278,7 +356,7 @@ public class CarController : MonoBehaviour
 
     private void Vfx()
     {
-        if (isGrounded && isDrifting /*currentCarLocalVelocity.x > minSideSkidVelocity*/)
+        if (isGrounded && isDrifting && Mathf.Abs(currentCarLocalVelocity.x) > minSideSkidVelocity)
         {
             ToggleSkidMarks(true);
             ToggleSkidSomkes(true);

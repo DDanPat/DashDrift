@@ -147,12 +147,8 @@ public class CarController : MonoBehaviour
 
     private void Acceleration()
     {
-        //carRB.AddForceAtPosition(acceleration * moveInput * transform.forward,
-        //    accelerationPoint.position,
-        //    ForceMode.Acceleration);
-
         // 현재 속도의 크기를 확인
-        float currentSpeed = carRB.linearVelocity.magnitude;
+        float currentSpeed = carRB.linearVelocity.magnitude * 3.6f;
 
         // 현재 속도가 maxSpeed보다 작을 경우에만 가속력을 적용
         if (currentSpeed < maxSpeed)
@@ -161,6 +157,18 @@ public class CarController : MonoBehaviour
                 accelerationPoint.position,
                 ForceMode.Acceleration);
         }
+
+        // 최고 속도 초과 시 강제로 Clamp
+        if (currentSpeed > maxSpeed)
+        {
+            Vector3 clampedVelocity = carRB.linearVelocity.normalized * (maxSpeed / 3.6f);
+            carRB.linearVelocity = clampedVelocity;
+        }
+    }
+
+    public float GetCurrentSpeed()
+    {
+        return carRB.linearVelocity.magnitude * 3.6f; // m/s to km/h
     }
 
     private void Brake()

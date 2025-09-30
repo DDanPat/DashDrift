@@ -55,25 +55,7 @@ public class CarController : MonoBehaviour
     [SerializeField] private float tireRotSpeed = 3000f; // 바퀴 회전 속도
     [SerializeField] private float maxSteerAngle = 30f; // 최대 조향 각도
     [SerializeField] private float minSideSkidVelocity = 10f;
-
-    [Header("Input System")]
-    public CarInputSystem carInput { get; private set; }
-    public CarInputSystem.CarActions carActions { get; private set; }
-
-    private void Awake()
-    {
-        carInput = new CarInputSystem();
-        carActions = carInput.Car;
-    }
-    private void OnEnable()
-    {
-        carInput.Enable();
-    }
-
-    private void OnDisable()
-    {
-        carInput.Disable();
-    }
+ 
     private void Start()
     {
         carRB = GetComponent<Rigidbody>();
@@ -90,11 +72,6 @@ public class CarController : MonoBehaviour
 
         // 데드존 로직
         StopCarAtLowSpeed();
-    }
-
-    private void Update()
-    {
-        GetPlayerInput();
     }
 
     #region Auto Stop at Low Speed Deadzone
@@ -321,16 +298,13 @@ public class CarController : MonoBehaviour
 
     #region Input Management
 
-    // TODO : Input System으로 변경
-    private void GetPlayerInput()
+    public void GetPlayerInput(float move, float steer, bool brake, bool drift )
     {
-        Vector2 moveVector = carInput.Car.Move.ReadValue<Vector2>();
+        moveInput = move;
+        steerInput = steer;
 
-        moveInput = moveVector.y;
-        steerInput = moveVector.x;
-
-        isBraking = carInput.Car.Brake.inProgress;
-        isDrifting = carInput.Car.Drift.inProgress;
+        isBraking = brake;
+        isDrifting = drift;
     }
 
     #endregion

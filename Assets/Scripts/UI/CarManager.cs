@@ -14,6 +14,6 @@ public class CarManager : MonoBehaviour
 
     private void Update()
     {
-        speedIndicator.SpeedUpdate(carController.GetCurrentSpeed());
+        //speedIndicator.SpeedUpdate(carController.GetCurrentSpeed());
     }
 }

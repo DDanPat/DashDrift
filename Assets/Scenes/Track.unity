@@ -3203,10 +3203,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5104522529306765937, guid: 5b631d1db301b924c90daa2fcfe0aa83, type: 3}
-      propertyPath: speedText
-      value: 
-      objectReference: {fileID: 2032858311}
     - target: {fileID: 6040983596441223730, guid: 5b631d1db301b924c90daa2fcfe0aa83, type: 3}
       propertyPath: m_LocalPosition.x
       value: 31.66
@@ -13727,50 +13723,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1005213627958516576, guid: f56c512dae2bef54e888957666ed1bfb, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.46
-      objectReference: {fileID: 0}
-    - target: {fileID: 1231917536408607723, guid: f56c512dae2bef54e888957666ed1bfb, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1582063239053182301, guid: f56c512dae2bef54e888957666ed1bfb, type: 3}
-      propertyPath: maxSpeed
-      value: 160
-      objectReference: {fileID: 0}
-    - target: {fileID: 1582063239053182301, guid: f56c512dae2bef54e888957666ed1bfb, type: 3}
-      propertyPath: brakeForce
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 1582063239053182301, guid: f56c512dae2bef54e888957666ed1bfb, type: 3}
-      propertyPath: restLength
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1582063239053182301, guid: f56c512dae2bef54e888957666ed1bfb, type: 3}
-      propertyPath: wheelRadius
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 1582063239053182301, guid: f56c512dae2bef54e888957666ed1bfb, type: 3}
-      propertyPath: acceleration
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 1582063239053182301, guid: f56c512dae2bef54e888957666ed1bfb, type: 3}
-      propertyPath: deceleration
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1582063239053182301, guid: f56c512dae2bef54e888957666ed1bfb, type: 3}
-      propertyPath: springTravel
-      value: 0.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 1879231508194802113, guid: f56c512dae2bef54e888957666ed1bfb, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1879231508194802113, guid: f56c512dae2bef54e888957666ed1bfb, type: 3}
-      propertyPath: speedText
-      value: 
-      objectReference: {fileID: 2032858311}
     - target: {fileID: 3180481349324525126, guid: f56c512dae2bef54e888957666ed1bfb, type: 3}
       propertyPath: cameraIndex
       value: 
@@ -13779,21 +13731,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: Car2
       objectReference: {fileID: 0}
-    - target: {fileID: 4032027096081049244, guid: f56c512dae2bef54e888957666ed1bfb, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.46
-      objectReference: {fileID: 0}
-    - target: {fileID: 5509910267382821094, guid: f56c512dae2bef54e888957666ed1bfb, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.46
-      objectReference: {fileID: 0}
-    - target: {fileID: 6224535039070348447, guid: f56c512dae2bef54e888957666ed1bfb, type: 3}
-      propertyPath: m_Enabled
+    - target: {fileID: 3508968999563150857, guid: f56c512dae2bef54e888957666ed1bfb, type: 3}
+      propertyPath: m_IsActive
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6923279493517622077, guid: f56c512dae2bef54e888957666ed1bfb, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.46
       objectReference: {fileID: 0}
     - target: {fileID: 7279182323916820350, guid: f56c512dae2bef54e888957666ed1bfb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -18209,6 +18149,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2130191740}
+  - component: {fileID: 2130191741}
   m_Layer: 5
   m_Name: Speed Indicator
   m_TagString: Untagged
@@ -18237,6 +18178,19 @@ RectTransform:
   m_AnchoredPosition: {x: -50, y: 50}
   m_SizeDelta: {x: 400, y: 100}
   m_Pivot: {x: 1, y: 0}
+--- !u!114 &2130191741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2130191739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 902499a9549f4334e86763627bb04148, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedText: {fileID: 2032858311}
 --- !u!1001 &2138272411
 PrefabInstance:
   m_ObjectHideFlags: 0

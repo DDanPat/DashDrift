@@ -10757,8 +10757,6 @@ GameObject:
   - component: {fileID: 6040983596441223730}
   - component: {fileID: 4911498526512699646}
   - component: {fileID: 5123236431542253664}
-  - component: {fileID: 5104522529306765937}
-  - component: {fileID: 5490579139715833176}
   - component: {fileID: 5803018067003380525}
   - component: {fileID: 8296190713288243742}
   m_Layer: 0
@@ -10911,31 +10909,6 @@ MonoBehaviour:
   tireRotSpeed: 3000
   maxSteerAngle: 30
   minSideSkidVelocity: 10
---- !u!114 &5104522529306765937
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4588767216761761551}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 902499a9549f4334e86763627bb04148, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speedText: {fileID: 0}
---- !u!114 &5490579139715833176
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4588767216761761551}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64159a6479938ac4fa166002ff2a451d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5803018067003380525
 MonoBehaviour:
   m_ObjectHideFlags: 0

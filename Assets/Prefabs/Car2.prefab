@@ -310,7 +310,7 @@ Transform:
   m_GameObject: {fileID: 842197078864075794}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.8632164, y: 0.5, z: -1.4157825}
+  m_LocalPosition: {x: 0.8632164, y: 0.46, z: -1.4157825}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -522,7 +522,7 @@ Transform:
   m_GameObject: {fileID: 2791058956801861375}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.8619995, y: 0.5, z: 1.3212199}
+  m_LocalPosition: {x: -0.8619995, y: 0.46, z: 1.3212199}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -574,8 +574,6 @@ GameObject:
   - component: {fileID: 7279182323916820350}
   - component: {fileID: 7109191699863015421}
   - component: {fileID: 1582063239053182301}
-  - component: {fileID: 1879231508194802113}
-  - component: {fileID: 1231917536408607723}
   - component: {fileID: 6224535039070348447}
   - component: {fileID: 4845305271256734262}
   m_Layer: 0
@@ -584,7 +582,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7279182323916820350
 Transform:
   m_ObjectHideFlags: 0
@@ -673,11 +671,11 @@ MonoBehaviour:
   damperStiffness: 3000
   restLength: 0.3
   springTravel: 0.25
-  wheelRadius: 0.37
-  acceleration: 20
-  brakeForce: 15
+  wheelRadius: 0.4
+  acceleration: 30
+  brakeForce: 20
   maxSpeed: 160
-  deceleration: 5
+  deceleration: 2
   steelStrength: 20
   turningCurve:
     serializedVersion: 2
@@ -728,31 +726,6 @@ MonoBehaviour:
   tireRotSpeed: 3000
   maxSteerAngle: 30
   minSideSkidVelocity: 10
---- !u!114 &1879231508194802113
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3508968999563150857}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 902499a9549f4334e86763627bb04148, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speedText: {fileID: 0}
---- !u!114 &1231917536408607723
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3508968999563150857}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64159a6479938ac4fa166002ff2a451d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6224535039070348447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -760,7 +733,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3508968999563150857}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 46a95940084487f4596e2d9921a25775, type: 3}
   m_Name: 
@@ -11314,7 +11287,7 @@ Transform:
   m_GameObject: {fileID: 8845152002109027416}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.8632164, y: 0.5, z: 1.3208456}
+  m_LocalPosition: {x: 0.8632164, y: 0.46, z: 1.3208456}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11345,7 +11318,7 @@ Transform:
   m_GameObject: {fileID: 9173451674795177972}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.8619995, y: 0.5, z: -1.4154081}
+  m_LocalPosition: {x: -0.8619995, y: 0.46, z: -1.4154081}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -18,7 +18,7 @@ public class CameraController : MonoBehaviour
             index = (index < CameraPositions.Length - 1) ? index + 1 : 0;
 
             CinemachineFollow.FollowOffset = CameraPositions[index];
-            cameraIndex.text = "Camera" + (index + 1).ToString();
+            //cameraIndex.text = "Camera" + (index + 1).ToString();
         }
     }
 }

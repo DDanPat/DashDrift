@@ -448,7 +448,7 @@ GameObject:
   - component: {fileID: 149128633}
   - component: {fileID: 149128634}
   m_Layer: 5
-  m_Name: GameObject
+  m_Name: GrageUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1467,6 +1467,18 @@ MonoBehaviour:
     carIcon: {fileID: 0}
     carPrice: 0
     isUnlocked: 1
+  - carName: 
+    carPrefab: {fileID: 3735952317500124290, guid: 111b35f8de4ac224fac79cad29bd6c8f, type: 3}
+    carControllerPrefab: {fileID: 7011902734773474483, guid: c4e7e89d276ea0f4ebe749ca1f503d74, type: 3}
+    carIcon: {fileID: 0}
+    carPrice: 0
+    isUnlocked: 1
+  - carName: 
+    carPrefab: {fileID: 6304703236553215225, guid: 8a715bf2a8ebdd2449902358855fe9a3, type: 3}
+    carControllerPrefab: {fileID: 1174697216296077559, guid: 437dcb394b169e54cae3d12920a9e047, type: 3}
+    carIcon: {fileID: 0}
+    carPrice: 0
+    isUnlocked: 1
   carSlot: {fileID: 4525332941917796177, guid: 15535fa7a42c6f042a4e0479a0316c12, type: 3}
   content: {fileID: 1874880468}
   carDisplayPoint: {fileID: 1949249445}
@@ -1940,6 +1952,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d8dcc13621b73c489ea6dd39440c150, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectedCarControllerPrefab: {fileID: 0}
 --- !u!4 &1692472315
 Transform:
   m_ObjectHideFlags: 0

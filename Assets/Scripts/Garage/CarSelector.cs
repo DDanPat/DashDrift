@@ -22,10 +22,14 @@ public class CarSelector : MonoBehaviour
 
 
     private GameObject currentCarModel;
-    private GameObject currentInGameCar;
+
+
+    private GameManager gameManager;
 
     private void Start()
     {
+        gameManager = GameManager.Instance;
+
         PopulateCarSlots();
 
         Init();
@@ -39,8 +43,6 @@ public class CarSelector : MonoBehaviour
 
     private void PopulateCarSlots()
     {
-
-
         foreach (var carData in carData)
         {
             Button newButton = Instantiate(carSlot, content);
@@ -58,9 +60,7 @@ public class CarSelector : MonoBehaviour
             Destroy(currentCarModel);
         }
         currentCarModel = Instantiate(carData.carPrefab, carDisplayPoint.position, Quaternion.identity, carDisplayPoint);
-        // Additional setup for the in-game car can be done here
+       
+        gameManager.SetSelectedCar(carData.carControllerPrefab);
     }
-
-
-
 }

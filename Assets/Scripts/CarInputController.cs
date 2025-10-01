@@ -30,6 +30,7 @@ public class CarInputController : MonoBehaviour
     private void Update()
     {
         GetInput();
+        Reset();
     }
 
     private void GetInput()
@@ -44,4 +45,17 @@ public class CarInputController : MonoBehaviour
 
         carController.GetPlayerInput(moveInput, steerInput, isBraking, isDrifting);
     }
+
+    #region 임시 제시작 버튼
+
+    private void Reset()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            var currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
+            UnityEngine.SceneManagement.SceneManager.LoadScene(currentScene.name);
+        }
+    }
+    #endregion
+
 }

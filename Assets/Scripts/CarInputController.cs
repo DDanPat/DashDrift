@@ -30,7 +30,10 @@ public class CarInputController : MonoBehaviour
     private void Update()
     {
         GetInput();
+
+
         Reset();
+        Exit();
     }
 
     private void GetInput()
@@ -46,7 +49,7 @@ public class CarInputController : MonoBehaviour
         carController.GetPlayerInput(moveInput, steerInput, isBraking, isDrifting);
     }
 
-    #region 임시 제시작 버튼
+    #region 임시 버튼
 
     private void Reset()
     {
@@ -54,6 +57,14 @@ public class CarInputController : MonoBehaviour
         {
             var currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
             UnityEngine.SceneManagement.SceneManager.LoadScene(currentScene.name);
+        }
+    }
+
+    private void Exit()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneLoader.LoadGameScene("Garage");
         }
     }
     #endregion

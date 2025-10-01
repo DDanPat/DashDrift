@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
+    path: Assets/Scenes/Garage.unity
+    guid: 84967d25eabbd2343a7e156e10c67885
+  - enabled: 1
     path: Assets/Scenes/Track.unity
     guid: 308a4a1cb640ae249b705e1c70e68d53
   m_configObjects:

@@ -34,7 +34,7 @@ public class CarController : MonoBehaviour
     [SerializeField] private float brakeForce = 10f; // 제동력
     [SerializeField] private float maxSpeed = 140f; // 최대 속도
     [SerializeField] private float deceleration = 5f; // 감속도
-    [SerializeField] private float steelStrength = 20f; // 조향 강도(바퀴 좌우 회전 각도)
+    [SerializeField] private float steerStrength = 20f; // 조향 강도(바퀴 좌우 회전 각도)
     [SerializeField] private AnimationCurve turningCurve; // 속도에 따른 조향 곡선
     [SerializeField] private float dragCoefficient = 0.8f; // 공기 저항 계수
 
@@ -115,8 +115,8 @@ public class CarController : MonoBehaviour
         if (isGrounded)
         {
             Acceleration();
-            Decelration();
-            Trun();
+            Deceleration();
+            Turn();
             SidewaysDrag();
         }
         if (isBraking) { Brake(); }
@@ -165,14 +165,14 @@ public class CarController : MonoBehaviour
         }
     }
 
-    private void Decelration()
+    private void Deceleration()
     {
         carRB.AddForceAtPosition(deceleration * moveInput * - transform.forward,
             accelerationPoint.position,
             ForceMode.Acceleration);
     }
 
-    private void Trun()
+    private void Turn()
     {
         // 드리프트 중에는 조향값을 점진적으로 변경
         if (isDrifting)
@@ -191,7 +191,7 @@ public class CarController : MonoBehaviour
 
         // turningCurve.Evaluate에는 속도의 절댓값을 전달하여 회전력의 크기를 조절한다.
         // 예를 들어, 속도가 낮을 때 더 잘 꺾이게 할 수 있다.
-        float turningForce = steelStrength * effectiveSteerInput * turningCurve.Evaluate(Mathf.Abs(carVelocityRatio));
+        float turningForce = steerStrength * effectiveSteerInput * turningCurve.Evaluate(Mathf.Abs(carVelocityRatio));
 
         // 드리프트 중에는 추가적인 회전력 부여
         if (isDrifting)
@@ -341,12 +341,12 @@ public class CarController : MonoBehaviour
         if (isGrounded && isDrifting && Mathf.Abs(currentCarLocalVelocity.x) > minSideSkidVelocity)
         {
             ToggleSkidMarks(true);
-            ToggleSkidSomkes(true);
+            ToggleSkidSmokes(true);
         }
         else
         {
             ToggleSkidMarks(false);
-            ToggleSkidSomkes(false);
+            ToggleSkidSmokes(false);
         }
 
     }
@@ -359,7 +359,7 @@ public class CarController : MonoBehaviour
         }
     }
 
-    private void ToggleSkidSomkes(bool toggle)
+    private void ToggleSkidSmokes(bool toggle)
     {
         foreach (var smoke in skidSmokes)
         {

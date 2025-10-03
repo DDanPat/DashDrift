@@ -573,6 +573,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7279182323916820350}
   - component: {fileID: 7109191699863015421}
+  - component: {fileID: 8344296345289308093}
   - component: {fileID: 1582063239053182301}
   - component: {fileID: 6224535039070348447}
   - component: {fileID: 4845305271256734262}
@@ -631,6 +632,68 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &8344296345289308093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3508968999563150857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d13e43dfd303f34cbfd7f3b884bd435, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _springStiffness: 30000
+  _damperStiffness: 3000
+  _restLength: 0.3
+  _springTravel: 0.25
+  _wheelRadius: 0.37
+  _acceleration: 20
+  _brakeForce: 15
+  _maxSpeed: 160
+  _deceleration: 5
+  _steelStrength: 30
+  _turningCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.0010515101
+      value: -0.0015820023
+      inSlope: 2.6221375
+      outSlope: 2.6221375
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.06582282
+    - serializedVersion: 3
+      time: 0.5601714
+      value: 0.98409104
+      inSlope: 0.6032821
+      outSlope: 0.6032821
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.120376155
+    - serializedVersion: 3
+      time: 1.0010376
+      value: 0.59781647
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _dragCoefficient: 1
+  _driftDragReduction: 0.5
+  _driftTorque: 15
+  _driftSteerLerpSpeed: 2
+  _tireRotSpeed: 3000
+  _maxSteerAngle: 30
+  _minSideSkidVelocity: 10
 --- !u!114 &1582063239053182301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -667,65 +730,7 @@ MonoBehaviour:
   skidSmokes:
   - {fileID: 6636929394837587906}
   - {fileID: 4089583691747542436}
-  springStiffness: 30000
-  damperStiffness: 3000
-  restLength: 0.3
-  springTravel: 0.25
-  wheelRadius: 0.4
-  acceleration: 30
-  brakeForce: 20
-  maxSpeed: 160
-  deceleration: 2
-  steelStrength: 20
-  turningCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.081810415
-      value: 0.3478724
-      inSlope: 3.5993733
-      outSlope: 3.5993733
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.34359062
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.5886644
-      value: 0.9979328
-      inSlope: -0.008162632
-      outSlope: -0.008162632
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.58266604
-    - serializedVersion: 3
-      time: 1.0333333
-      value: 0.5014068
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  dragCoefficient: 1
-  driftDragReduction: 0.5
-  driftTorque: 10
-  driftSteerLerpSpeed: 2
-  tireRotSpeed: 3000
-  maxSteerAngle: 30
-  minSideSkidVelocity: 10
+  carStats: {fileID: 0}
 --- !u!114 &6224535039070348447
 MonoBehaviour:
   m_ObjectHideFlags: 0

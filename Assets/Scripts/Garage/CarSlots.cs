@@ -11,8 +11,8 @@ public class CarSlots : MonoBehaviour
         carData = data;
         // Here you can set up the UI elements like car icon, name, price, etc.
         // For example:
-        // carIconImage.sprite = carData.carIcon;
-        // carNameText.text = carData.carName;
-        // carPriceText.text = carData.carPrice.ToString();
+        // carIconImage.sprite = carStats.carIcon;
+        // carNameText.text = carStats.carName;
+        // carPriceText.text = carStats.carPrice.ToString();
     }
 }

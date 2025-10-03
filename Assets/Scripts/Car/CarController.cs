@@ -15,13 +15,8 @@ public class CarController : MonoBehaviour
     [SerializeField] private TrailRenderer[] skidMarks = new TrailRenderer[2]; // 드리프트 시 바닥에 남는 자국
     [SerializeField] private ParticleSystem[] skidSmokes = new ParticleSystem[2]; // 바퀴 먼지 파티클
 
-
-    [Header("서스펜션 설정")]
-    [SerializeField] private float springStiffness; // 스프링 강성
-    [SerializeField] private float damperStiffness; // 댐퍼 강성
-    [SerializeField] private float restLength; // 스프링 정지 길이
-    [SerializeField] private float springTravel; // 스프링 이동 거리
-    [SerializeField] private float wheelRadius; // 바퀴 반지름
+    [Header("Data Reference")]
+    [SerializeField] private CarStats carStats;
 
     [Header("입력")]
     private float moveInput = 0;
@@ -29,14 +24,8 @@ public class CarController : MonoBehaviour
     private bool isBraking = false;
     private bool isDrifting = false;
 
-    [Header("자동차 설정")]
-    [SerializeField] private float acceleration = 15f; // 가속도
-    [SerializeField] private float brakeForce = 10f; // 제동력
-    [SerializeField] private float maxSpeed = 140f; // 최대 속도
-    [SerializeField] private float deceleration = 5f; // 감속도
-    [SerializeField] private float steerStrength = 20f; // 조향 강도(바퀴 좌우 회전 각도)
-    [SerializeField] private AnimationCurve turningCurve; // 속도에 따른 조향 곡선
-    [SerializeField] private float dragCoefficient = 0.8f; // 공기 저항 계수
+
+    private float currentSteerAngle = 0f;
 
     private Vector3 currentCarLocalVelocity = Vector3.zero;
     private float carVelocityRatio = 0f;
@@ -44,21 +33,19 @@ public class CarController : MonoBehaviour
     private int[] wheelsIsGrounded = new int[4]; // 바퀴 접지 여부
     private bool isGrounded = false; // 자동차 접지 여부
 
-    [Header("드리프트 설정")]
-    [SerializeField] private float driftDragReduction = 0.5f; // 드리프트 시 측면 저항 감소율 (0~1)
-    [SerializeField] private float driftTorque = 15f; // 드리프트 시 추가 회전력
-    [SerializeField] private float driftSteerLerpSpeed = 2f; // 드리프트 시 조향 전환 속도
-    private float currentSteerAngle = 0f;
-
-
-    [Header("비쥬얼")]
-    [SerializeField] private float tireRotSpeed = 3000f; // 바퀴 회전 속도
-    [SerializeField] private float maxSteerAngle = 30f; // 최대 조향 각도
-    [SerializeField] private float minSideSkidVelocity = 10f;
  
     private void Start()
     {
         carRB = GetComponent<Rigidbody>();
+
+        if (carStats == null)
+        {
+            carStats = GetComponent<CarStats>();
+        }
+        if (carStats == null)
+        {
+            Debug.LogError("CarStats 스크립트가 게임 오브젝트에 없습니다!");
+        }
     }
 
     private void FixedUpdate()
@@ -128,17 +115,17 @@ public class CarController : MonoBehaviour
         float currentSpeed = carRB.linearVelocity.magnitude * 3.6f;
 
         // 현재 속도가 maxSpeed보다 작을 경우에만 가속력을 적용
-        if (currentSpeed < maxSpeed)
+        if (currentSpeed < carStats.MaxSpeed)
         {
-            carRB.AddForceAtPosition(acceleration * moveInput * transform.forward,
+            carRB.AddForceAtPosition(carStats.Acceleration * moveInput * transform.forward,
                 accelerationPoint.position,
                 ForceMode.Acceleration);
         }
 
         // 최고 속도 초과 시 강제로 Clamp
-        if (currentSpeed > maxSpeed)
+        if (currentSpeed > carStats.MaxSpeed)
         {
-            Vector3 clampedVelocity = carRB.linearVelocity.normalized * (maxSpeed / 3.6f);
+            Vector3 clampedVelocity = carRB.linearVelocity.normalized * (carStats.MaxSpeed / 3.6f);
             carRB.linearVelocity = clampedVelocity;
         }
     }
@@ -159,7 +146,7 @@ public class CarController : MonoBehaviour
                 ? -transform.forward 
                 : transform.forward; 
 
-            carRB.AddForceAtPosition(brakeForce * brakeDirection,
+            carRB.AddForceAtPosition(carStats.BrakeForce * brakeDirection,
                 accelerationPoint.position,
                 ForceMode.Acceleration);
         }
@@ -167,7 +154,7 @@ public class CarController : MonoBehaviour
 
     private void Deceleration()
     {
-        carRB.AddForceAtPosition(deceleration * moveInput * - transform.forward,
+        carRB.AddForceAtPosition(carStats.Deceleration * moveInput * - transform.forward,
             accelerationPoint.position,
             ForceMode.Acceleration);
     }
@@ -177,7 +164,7 @@ public class CarController : MonoBehaviour
         // 드리프트 중에는 조향값을 점진적으로 변경
         if (isDrifting)
         {
-            currentSteerAngle = Mathf.Lerp(currentSteerAngle, steerInput, Time.deltaTime * driftSteerLerpSpeed);
+            currentSteerAngle = Mathf.Lerp(currentSteerAngle, steerInput, Time.deltaTime * carStats.DriftSteerLerpSpeed);
         }
         else
         {
@@ -189,14 +176,14 @@ public class CarController : MonoBehaviour
         // steerInput에 carVelocityRatio의 부호를 곱한다.
         float effectiveSteerInput = currentSteerAngle * Mathf.Sign(carVelocityRatio);
 
-        // turningCurve.Evaluate에는 속도의 절댓값을 전달하여 회전력의 크기를 조절한다.
+        // TurningCurve.Evaluate에는 속도의 절댓값을 전달하여 회전력의 크기를 조절한다.
         // 예를 들어, 속도가 낮을 때 더 잘 꺾이게 할 수 있다.
-        float turningForce = steerStrength * effectiveSteerInput * turningCurve.Evaluate(Mathf.Abs(carVelocityRatio));
+        float turningForce = carStats.SteelStrength * effectiveSteerInput * carStats.TurningCurve.Evaluate(Mathf.Abs(carVelocityRatio));
 
         // 드리프트 중에는 추가적인 회전력 부여
         if (isDrifting)
         {
-            turningForce += driftTorque * effectiveSteerInput;
+            turningForce += carStats.DriftTorque * effectiveSteerInput;
         }
 
         // 토크를 적용한다.
@@ -208,13 +195,13 @@ public class CarController : MonoBehaviour
         float currentsidewaySpeed = currentCarLocalVelocity.x;
 
         // 드리프트 중에는 측면 저항을 줄임
-        float currentDragCoefficient = dragCoefficient;
+        float currentDragCoefficient = carStats.DragCoefficient;
         if (isDrifting)
         {
-            currentDragCoefficient *= driftDragReduction;
+            currentDragCoefficient *= carStats.DriftDragReduction;
         }
 
-        float dragMagnitude = -currentsidewaySpeed * dragCoefficient;
+        float dragMagnitude = -currentsidewaySpeed * carStats.DragCoefficient;
         Vector3 dragForce = transform.right * dragMagnitude;
 
         carRB.AddForceAtPosition(dragForce, accelerationPoint.position, ForceMode.Acceleration);
@@ -229,26 +216,26 @@ public class CarController : MonoBehaviour
         for (int i = 0; i < rayPoints.Length; i++)
         {
             RaycastHit hit;
-            float maxDistance = restLength;// + springTravel;
+            float maxDistance = carStats.RestLength;// + springTravel;
 
-            if (Physics.Raycast(rayPoints[i].position, -rayPoints[i].up, out hit, maxDistance + wheelRadius, groundLayer))
+            if (Physics.Raycast(rayPoints[i].position, -rayPoints[i].up, out hit, maxDistance + carStats.WheelRadius, groundLayer))
             {
                 wheelsIsGrounded[i] = 1;
 
-                float currentSpringLength = hit.distance - wheelRadius;
-                float springCompression = restLength - currentSpringLength / springTravel;
+                float currentSpringLength = hit.distance - carStats.WheelRadius;
+                float springCompression = carStats.RestLength - currentSpringLength / carStats.SpringTravel;
 
                 float springVelocity = Vector3.Dot(carRB.GetPointVelocity(rayPoints[i].position), rayPoints[i].up);
-                float dampForce = damperStiffness * springVelocity;
+                float dampForce = carStats.DamperStiffness * springVelocity;
 
-                float springForce = springCompression * springStiffness;
+                float springForce = springCompression * carStats.SpringStiffness;
 
                 float netForce = springForce - dampForce;
 
                 carRB.AddForceAtPosition(netForce * rayPoints[i].up, rayPoints[i].position);
 
                 // Visuals (바퀴 회전)
-                SetTirePosition(tires[i], hit.point + rayPoints[i].up * wheelRadius);
+                SetTirePosition(tires[i], hit.point + rayPoints[i].up * carStats.WheelRadius);
 
                 Debug.DrawLine(rayPoints[i].position, hit.point, Color.red);
             }
@@ -260,7 +247,7 @@ public class CarController : MonoBehaviour
                 SetTirePosition(tires[i], rayPoints[i].position - rayPoints[i].up * maxDistance);
 
                 Debug.DrawLine(rayPoints[i].position,
-                    rayPoints[i].position + (wheelRadius + maxDistance) * -rayPoints[i].up, Color.green);
+                    rayPoints[i].position + (carStats.WheelRadius + maxDistance) * -rayPoints[i].up, Color.green);
             }
         }
     }
@@ -291,7 +278,7 @@ public class CarController : MonoBehaviour
     private void CalulateCarVelocity()
     {
         currentCarLocalVelocity = transform.InverseTransformDirection(carRB.linearVelocity);
-        carVelocityRatio = currentCarLocalVelocity.z / maxSpeed;
+        carVelocityRatio = currentCarLocalVelocity.z / carStats.MaxSpeed;
     }
 
     #endregion
@@ -319,12 +306,12 @@ public class CarController : MonoBehaviour
 
     private void TireVisuals()
     {
-        float steeringAngle = maxSteerAngle * steerInput;
+        float steeringAngle = carStats.MaxSteerAngle * steerInput;
 
         for (int i = 0; i < tires.Length; i++)
         {
             tires[i].transform.Rotate(Vector3.right,
-                    tireRotSpeed * carVelocityRatio * Time.deltaTime, Space.Self);
+                    carStats.TireRotSpeed * carVelocityRatio * Time.deltaTime, Space.Self);
 
             if (i < 2)
             {
@@ -338,7 +325,7 @@ public class CarController : MonoBehaviour
 
     private void Vfx()
     {
-        if (isGrounded && isDrifting && Mathf.Abs(currentCarLocalVelocity.x) > minSideSkidVelocity)
+        if (isGrounded && isDrifting && Mathf.Abs(currentCarLocalVelocity.x) > carStats.MinSideSkidVelocity)
         {
             ToggleSkidMarks(true);
             ToggleSkidSmokes(true);

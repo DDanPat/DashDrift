@@ -7,12 +7,12 @@ public class SpeedIndicator : MonoBehaviour
 
     private float currentSpeed;
 
-
     private CarController carController;
 
     private void Start()
     {
-        carController = FindAnyObjectByType<CarController>();
+        GameObject player = GameManager.Instance.GetSelectedCarPrefab();
+        carController = player.GetComponent<CarController>();
         currentSpeed = 0f;
     }
 

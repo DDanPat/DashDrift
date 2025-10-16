@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     // 다음 씬에서 소환할 차량 컨트롤러 프리팹을 저장할 변수
-    [SerializeField]private GameObject selectedCarControllerPrefab;
+    [SerializeField] private GameObject selectedCarControllerPrefab;
 
     public void SetSelectedCar(GameObject carControllerPrefab)
     {

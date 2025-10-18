@@ -486,7 +486,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3062a2a69d554104bb96ea8d2711458a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inGameSceneName: Track
+  inGameSceneName: Track001
   startGameButton: {fileID: 245407}
 --- !u!1 &183371340
 GameObject:
@@ -570,7 +570,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1835001880}
   m_HandleRect: {fileID: 1835001879}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:

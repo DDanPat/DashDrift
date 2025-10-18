@@ -4,7 +4,6 @@ using TMPro; // UI TextMeshPro를 사용하는 경우
 
 public class LapTimer : MonoBehaviour
 {
-    // UI 표시를 위한 변수 추가 (LapManager에서 처리할 수도 있지만, 여기에서 직접 관리하도록 가정)
     [Header("UI References")]
     public TextMeshProUGUI totalTimeText; // 총 시간 표시
     public TextMeshProUGUI lapTimeText;   // 현재 랩 시간 표시
@@ -48,10 +47,7 @@ public class LapTimer : MonoBehaviour
         Debug.Log("Lap Timer Started.");
     }
 
-    /// <summary>
-    /// 현재 랩을 종료하고 새 랩을 시작하는 로직.
-    /// LapManager 또는 FinishLine 스크립트에서 호출됩니다.
-    /// </summary>
+
     public void EndLap()
     {
         if (!isTiming) return;

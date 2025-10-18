@@ -19,23 +19,23 @@ public class LapManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider collider)
     {
-        if (collider.gameObject.GetComponentInParent<LapController>() 
-            && collider.gameObject.tag == "Player")
+        LapController lapController = collider.gameObject.GetComponentInParent<LapController>();
+
+        if (lapController.gameObject.tag == "Player")
         {
-            LapController player = collider.gameObject.GetComponentInParent<LapController>();
-            if (player.checkpointCount == checkpoints.Count)
+            if (lapController.checkpointCount == checkpoints.Count)
             {
-                player.lapCount++;
-                player.checkpointCount = 0;
+                lapController.lapCount++;
+                lapController.checkpointCount = 0;
 
                 lapTimer.EndLap();
 
-                if (player.lapCount < totalLaps)
+                if (lapController.lapCount < totalLaps)
                 {
-                    lapUI.LapTextUpdate(player.lapCount, totalLaps);
+                    lapUI.LapTextUpdate(lapController.lapCount, totalLaps);
                 }
 
-                if (player.lapCount > totalLaps)
+                if (lapController.lapCount > totalLaps)
                 {
                     // End race logic here
                     lapTimer.EndTimer();
@@ -47,7 +47,22 @@ public class LapManager : MonoBehaviour
 
                 }
             }
-        }        
+        }
+        else
+        {
+            // AI 차량의 경우 체크포인트만 갱신
+            if (lapController.checkpointCount == checkpoints.Count)
+            {
+                lapController.lapCount++;
+                lapController.checkpointCount = 0;
+
+                if (lapController.lapCount > totalLaps)
+                {
+                    lapController.gameObject.GetComponent<AICarController>().StopAICar();
+                    // AI 차량이 레이스를 완료했을 때의 로직 (필요 시 추가)
+                }
+            }
+        }
     }
     private IEnumerator EndGame()
     {

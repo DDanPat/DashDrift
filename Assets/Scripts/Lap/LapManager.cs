@@ -19,7 +19,8 @@ public class LapManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider collider)
     {
-        if (collider.gameObject.GetComponentInParent<LapController>())
+        if (collider.gameObject.GetComponentInParent<LapController>() 
+            && collider.gameObject.tag == "Player")
         {
             LapController player = collider.gameObject.GetComponentInParent<LapController>();
             if (player.checkpointCount == checkpoints.Count)
@@ -41,6 +42,9 @@ public class LapManager : MonoBehaviour
 
                     // 3초 후에 로비 화면으로 씬 전환
                     StartCoroutine(EndGame());
+
+                    // TODO: 결과 화면 UI 표시 로직 추가 필요 및 결과 화면에서 아무키 입력 시 로비 씬으로 전환
+
                 }
             }
         }        

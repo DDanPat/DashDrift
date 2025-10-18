@@ -18,6 +18,7 @@ public class AICarController : MonoBehaviour
     private List<Transform> _waypoints;
     private int _currentWaypointIndex = 0;
     private Transform _targetWaypoint;
+    private bool isFinished = false;
 
     // 드리프트 상태 변수
     private bool _isDrifting = false;
@@ -44,6 +45,8 @@ public class AICarController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (isFinished) return;
+
         CheckWaypointProgress();
 
         if (_targetWaypoint == null) return;
@@ -154,5 +157,12 @@ public class AICarController : MonoBehaviour
         }
 
         return false;
+    }
+
+    // 레이스가 끝났을 때 AI 자동차를 멈추게 하는 메서드
+    public void StopAICar()
+    {
+        isFinished = true;
+        _carController.GetPlayerInput(0f, 0f, true, false);
     }
 }

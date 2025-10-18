@@ -14,7 +14,7 @@ public class LapManager : MonoBehaviour
 
     private void Start()
     {
-        lapUI.LapTextUpdate(0, totalLaps);
+        lapUI.LapTextUpdate(1, totalLaps);
     }
 
     private void OnTriggerEnter(Collider collider)

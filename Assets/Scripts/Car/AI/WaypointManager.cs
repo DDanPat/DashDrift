@@ -30,7 +30,7 @@ public class WaypointManager : MonoBehaviour
         }
 
 
-        SetWaypoints();
+        //SetWaypoints();
     }
 
     private void SetWaypoints()
@@ -81,7 +81,8 @@ public class WaypointManager : MonoBehaviour
             }
 
             // 웨이포인트 지점 시각화
-            Gizmos.DrawSphere(waypoints[i].position, waypointSwitchDistance);
+            Gizmos.DrawSphere(waypoints[i].position, 5);
+            Gizmos.DrawWireSphere(waypoints[i].position, waypointSwitchDistance);
 
             // 다음 웨이포인트까지의 경로 (청록색으로 통일)
             int nextIndex = (i + 1) % waypoints.Count;

@@ -11,7 +11,8 @@ public class SpeedIndicator : MonoBehaviour
 
     private void Start()
     {
-        GameObject player = GameManager.Instance.GetSelectedCarPrefab();
+        GameObject player = GameObject.FindWithTag("Player");
+
         carController = player.GetComponent<CarController>();
         currentSpeed = 0f;
     }

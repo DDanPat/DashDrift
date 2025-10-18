@@ -22,7 +22,7 @@ public class AICarController : MonoBehaviour
     // 드리프트 상태 변수
     private bool _isDrifting = false;
 
-    private void Awake()
+    private void Start()
     {
         _carController = GetComponent<CarController>();
         _waypointManager = WaypointManager.Instance; // WaypointManager 인스턴스 저장

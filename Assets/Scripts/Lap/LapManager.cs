@@ -30,7 +30,7 @@ public class LapManager : MonoBehaviour
 
                 lapTimer.EndLap();
 
-                if (lapController.lapCount < totalLaps)
+                if (lapController.lapCount <= totalLaps)
                 {
                     lapUI.LapTextUpdate(lapController.lapCount, totalLaps);
                 }

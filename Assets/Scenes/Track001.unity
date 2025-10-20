@@ -5123,7 +5123,7 @@ Transform:
   m_GameObject: {fileID: 1970710989}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -63.2, y: 0, z: -225.1}
+  m_LocalPosition: {x: -37.6, y: 0, z: -219.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5995,6 +5995,8 @@ MonoBehaviour:
   maxCornerAngle: 20
   cornerSlowDownFactor: 0.5
   driftStartDistance: 40
+  minDriftAngle: 20
+  minDrivingAngle: 10
   cornerRatioBaseAngle: 30
   hardBrakeAngle: 45
 --- !u!114 &681119348949150610
@@ -10994,7 +10996,7 @@ Transform:
   m_GameObject: {fileID: 6294048700980150964}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -315.3, y: 0, z: -165.8}
+  m_LocalPosition: {x: -309.8, y: 0, z: -182.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -24188,6 +24190,8 @@ MonoBehaviour:
   maxCornerAngle: 20
   cornerSlowDownFactor: 0.5
   driftStartDistance: 5
+  minDriftAngle: 20
+  minDrivingAngle: 10
   cornerRatioBaseAngle: 90
   hardBrakeAngle: 75
 --- !u!4 &5954960086807047042
@@ -24369,7 +24373,7 @@ Transform:
   m_GameObject: {fileID: 3094401658811044223}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -260.2, y: 0, z: 218.9}
+  m_LocalPosition: {x: -269, y: 0, z: 218.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -40066,6 +40070,8 @@ MonoBehaviour:
   maxCornerAngle: 20
   cornerSlowDownFactor: 0.5
   driftStartDistance: 40
+  minDriftAngle: 20
+  minDrivingAngle: 10
   cornerRatioBaseAngle: 30
   hardBrakeAngle: 45
 --- !u!1 &7959034786220929571
@@ -40121,6 +40127,8 @@ MonoBehaviour:
   maxCornerAngle: 20
   cornerSlowDownFactor: 0.5
   driftStartDistance: 40
+  minDriftAngle: 20
+  minDrivingAngle: 10
   cornerRatioBaseAngle: 30
   hardBrakeAngle: 45
 --- !u!1 &8028900513817024492
@@ -50116,7 +50124,7 @@ Transform:
   m_GameObject: {fileID: 700051355691595502}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -83.1, y: 0, z: 215.7}
+  m_LocalPosition: {x: -83.1, y: 0, z: 216}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -50975,7 +50983,7 @@ Transform:
   m_GameObject: {fileID: 2072067547228871465}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0, z: 176.1}
+  m_LocalPosition: {x: -3.1, y: 0, z: 185.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -51305,8 +51313,8 @@ SceneRoots:
   - {fileID: 9027670011398663092}
   - {fileID: 1068657106}
   - {fileID: 8042963027110585591}
+  - {fileID: 800289155}
   - {fileID: 2278732131233667406}
   - {fileID: 7184495703230671986}
-  - {fileID: 800289155}
   - {fileID: 5814137647787093220}
   - {fileID: 7333889440017914071}

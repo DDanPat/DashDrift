@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class DataManager : MonoBehaviour
 {
-    public int NumberOfAICars { get; private set; }
+    public int AICount { get; private set; }
     public string AIGrade { get; private set; }
 
     public void SetRaceSettings(int carCount)
     {
-        NumberOfAICars = carCount;
-        Debug.Log("Number of AI Cars set to: " + NumberOfAICars);
+        AICount = carCount;
+        Debug.Log("Number of AI Cars set to: " + AICount);
     }
 
     public void SetRaceSettings(string grade)

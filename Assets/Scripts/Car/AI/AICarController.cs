@@ -7,6 +7,7 @@ public class AICarController : MonoBehaviour
     // AI의 현재 동작 상태를 정의하는 Enum
     private enum AICarState
     {
+        RaceReady,
         Driving,
         SlowingDown,
         Drifting,
@@ -55,24 +56,32 @@ public class AICarController : MonoBehaviour
         // 초기 웨이포인트 설정
         _targetWaypoint = _waypoints[_currentWaypointIndex];
         // 초기 상태 설정
-        TransitionToState(AICarState.Driving);
+        TransitionToState(AICarState.RaceReady);
     }
 
     private void FixedUpdate()
     {
-        // 레이스 종료 상태일 때는 웨이포인트 체크 및 추가 로직 수행을 건너뜁니다.
-        if (_currentState != AICarState.RaceFinished)
+        // 레이스 종료 상태일 때는 웨이포인트 체크 및 추가 로직 수행을 건너뜁니다.
+        if (_currentState != AICarState.RaceFinished)
         {
             CheckWaypointProgress();
         }
 
         if (_targetWaypoint == null && _currentState != AICarState.RaceFinished) return;
 
-        // 현재 상태에 따른 AI 로직 실행
-        (float moveInput, float steerInput, bool isBraking, bool isDrifting) = HandleState();
+        // **(추가)** RaceReady 상태에서는 입력 처리를 건너뜁니다.
+        if (_currentState == AICarState.RaceReady)
+        {
+            // 준비 상태에서는 0 입력만 반환합니다.
+            _carController.GetPlayerInput(0f, 0f, true, false); // 브레이크를 잡아 정지 상태 유지
+            return;
+        }
 
-        // CarController에 최종 입력 전달
-        _carController.GetPlayerInput(moveInput, steerInput, isBraking, isDrifting);
+        // 현재 상태에 따른 AI 로직 실행
+        (float moveInput, float steerInput, bool isBraking, bool isDrifting) = HandleState();
+
+        // CarController에 최종 입력 전달
+        _carController.GetPlayerInput(moveInput, steerInput, isBraking, isDrifting);
     }
 
     //
@@ -86,6 +95,13 @@ public class AICarController : MonoBehaviour
         if (newState != AICarState.Drifting)
         {
             _isDrifting = false;
+        }
+    }
+    public void RaceStart()
+    {
+        if (_currentState == AICarState.RaceReady)
+        {
+            TransitionToState(AICarState.Driving);
         }
     }
 

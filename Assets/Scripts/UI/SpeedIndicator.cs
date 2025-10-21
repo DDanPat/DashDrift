@@ -9,12 +9,19 @@ public class SpeedIndicator : MonoBehaviour
 
     private CarController carController;
 
-    private void Start()
+    public void SetTargetCar(CarController car)
     {
-        GameObject player = GameObject.FindWithTag("Player");
-
-        carController = player.GetComponent<CarController>();
-        currentSpeed = 0f;
+        if (car != null)
+        {
+            carController = car;
+            Debug.Log("✅ SpeedIndicator: 플레이어 차량 참조 설정 완료.");
+            // 차량이 설정된 직후 UI를 초기화할 수 있습니다.
+            speedText.text = "0";
+        }
+        else
+        {
+            Debug.LogError("SpeedIndicator: 전달받은 차량 참조가 Null입니다.");
+        }
     }
 
     private void Update()

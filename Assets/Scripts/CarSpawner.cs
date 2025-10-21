@@ -4,12 +4,7 @@ public class CarSpawner : MonoBehaviour
 {
     [SerializeField] private Transform spawnPoint; // 차량이 소환될 위치
 
-    private void Start()
-    {
-        SpawnSelectedCar();
-    }
-
-    private void SpawnSelectedCar()
+    public void SpawnSelectedCar()
     {
         if (GameManager.Instance != null)
         {
@@ -18,15 +13,20 @@ public class CarSpawner : MonoBehaviour
 
             if (selectedCarPrefab != null)
             {
-                Instantiate(selectedCarPrefab, spawnPoint.position, spawnPoint.rotation);
-            }
-            else
-            {
-                Debug.LogError("선택된 차량이 없습니다. 기본 차량을 소환하거나 초기화면으로 돌아가게 해야 합니다.");
-            }
+                GameObject carController = Instantiate(selectedCarPrefab, spawnPoint.position, spawnPoint.rotation);
+                
+                SpeedIndicator speedIndicator = FindFirstObjectByType<SpeedIndicator>();
 
-            // 데이터 사용 후 GameManager에서 데이터 초기화 (선택 사항)
-            //GameManager.Instance.SetSelectedCar(null);
+                if (speedIndicator != null)
+                {
+                    // SpeedIndicator에 차량 컨트롤러를 설정
+                    speedIndicator.SetTargetCar(carController.GetComponent<CarController>());
+                }
+                else
+                {
+                    Debug.LogError("SpeedIndicator 컴포넌트를 찾을 수 없습니다.");
+                }
+            }
         }
         else
         {

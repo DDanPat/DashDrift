@@ -33,7 +33,8 @@ public class CarController : MonoBehaviour
     private int[] wheelsIsGrounded = new int[4]; // 바퀴 접지 여부
     private bool isGrounded = false; // 자동차 접지 여부
 
- 
+    public bool raceStarted = false;
+
     private void Start()
     {
         carRB = GetComponent<Rigidbody>();
@@ -50,6 +51,19 @@ public class CarController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (raceStarted == false)
+        {
+            Suspension();
+            GroundCheck();
+            CalulateCarVelocity();
+            Visuals();
+
+            // 데드존 로직
+            StopCarAtLowSpeed();
+
+            return;
+        }
+
         Suspension();
         GroundCheck();
         CalulateCarVelocity();

@@ -3,6 +3,7 @@ using UnityEngine;
 public class CarSpawner : MonoBehaviour
 {
     [SerializeField] private Transform spawnPoint; // 차량이 소환될 위치
+    public GameObject spawnedCar { get; private set; }
 
     public void SpawnSelectedCar()
     {
@@ -13,14 +14,14 @@ public class CarSpawner : MonoBehaviour
 
             if (selectedCarPrefab != null)
             {
-                GameObject carController = Instantiate(selectedCarPrefab, spawnPoint.position, spawnPoint.rotation);
+                spawnedCar = Instantiate(selectedCarPrefab, spawnPoint.position, spawnPoint.rotation);
                 
                 SpeedIndicator speedIndicator = FindFirstObjectByType<SpeedIndicator>();
 
                 if (speedIndicator != null)
                 {
                     // SpeedIndicator에 차량 컨트롤러를 설정
-                    speedIndicator.SetTargetCar(carController.GetComponent<CarController>());
+                    speedIndicator.SetTargetCar(spawnedCar.GetComponent<CarController>());
                 }
                 else
                 {

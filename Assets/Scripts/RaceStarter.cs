@@ -2,46 +2,69 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
+public enum RaceMode
+{
+    Career,
+    TimeAttack,
+    FreeRide
+}
+
 public class RaceStarter : MonoBehaviour
 {
     [SerializeField] private CarSpawner carSpawner;
     [SerializeField] private AISpawner aiSpawner;
     [SerializeField] private TextMeshProUGUI countdownText;
-    private bool isRaceStarted = false;
+    [SerializeField] private RaceMode raceMode;
+
+    public bool isRaceStarted = false;
 
     private void Start()
     {
         carSpawner.SpawnSelectedCar();
-        StartCoroutine(StartCountdown());
+        HandleGameModeStart();
+    }
+
+    private void HandleGameModeStart()
+    {
+        switch(raceMode)
+        {
+            case RaceMode.Career:
+                StartCoroutine(StartCountdown());
+                break;
+            case RaceMode.TimeAttack:
+                StartCoroutine(StartCountdown());
+                break;
+            case RaceMode.FreeRide:
+                isRaceStarted = true;
+                carSpawner.spawnedCar.GetComponent<CarController>().raceStarted = true;
+                break;
+        }
     }
 
     private IEnumerator StartCountdown()
     {
-        //if (countdownText == null)
-        //{
-        //    Debug.LogError("Countdown Text가 설정되지 않았습니다.");
-        //    yield break;
-        //}
 
-        // 3초 카운트다운
         for (int i = 3; i > 0; i--)
         {
-            //countdownText.text = i.ToString();
+            countdownText.text = i.ToString();
             Debug.Log(i.ToString());
             yield return new WaitForSeconds(1f);
         }
 
         // 출발 표시
-        //countdownText.text = "출발!";
+        countdownText.text = "출발!";
         Debug.Log("출발!");
         yield return new WaitForSeconds(1f);
 
-        foreach (var aiCar in aiSpawner.aiCarPrefabs)
+        foreach (var aiCar in aiSpawner.AICars)
         {
+            aiCar.GetComponent<CarController>().raceStarted = true;
             aiCar.GetComponent<AICarController>().RaceStart();
         }
+
+        carSpawner.spawnedCar.GetComponent<CarController>().raceStarted = true;
         // 텍스트 숨기기
-        //countdownText.gameObject.SetActive(false);
+        countdownText.gameObject.SetActive(false);
         isRaceStarted = true;
     }
 

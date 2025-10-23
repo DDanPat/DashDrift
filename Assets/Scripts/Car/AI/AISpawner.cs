@@ -31,7 +31,9 @@ public class AISpawner : MonoBehaviour
     private void SpownAICar()
     {
         // AI 차량 소환 로직 구현
-        
+
+        if (aiCarCount == 0) return;
+
         aiCars.Clear();
 
         for (int i = 0; i < aiCarCount; i++)

@@ -136,6 +136,19 @@ public class CarController : MonoBehaviour
                 ForceMode.Acceleration);
         }
 
+        // 드리프트 중일 때 추가 가속력 부여
+        if (isDrifting && isGrounded)
+        {
+            // carStats의 _driftTorque를 '보너스 가속력 계수'로 활용하거나, 
+            // CarStats에 새로운 변수 (_driftBoostAcceleration)를 추가하여 사용합니다.
+            float bonusAcceleration = carStats.DriftTorque * 1.5f; // 예시로 _driftTorque의 1.5배 적용
+
+            // 추가 가속력 적용 (ForceMode.Acceleration을 사용하면 질량과 관계없이 일정 가속)
+            carRB.AddForceAtPosition(bonusAcceleration * transform.forward,
+                accelerationPoint.position,
+                ForceMode.Acceleration);
+        }
+
         // 최고 속도 초과 시 강제로 Clamp
         if (currentSpeed > carStats.MaxSpeed)
         {
@@ -212,10 +225,10 @@ public class CarController : MonoBehaviour
         float currentDragCoefficient = carStats.DragCoefficient;
         if (isDrifting)
         {
-            currentDragCoefficient *= carStats.DriftDragReduction;
+            currentDragCoefficient -= carStats.DriftDragReduction;
         }
 
-        float dragMagnitude = -currentsidewaySpeed * carStats.DragCoefficient;
+        float dragMagnitude = -currentsidewaySpeed * currentDragCoefficient;
         Vector3 dragForce = transform.right * dragMagnitude;
 
         carRB.AddForceAtPosition(dragForce, accelerationPoint.position, ForceMode.Acceleration);

@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,6 +21,12 @@ public class CarSelector : MonoBehaviour
 
     [SerializeField] private Transform carDisplayPoint;
 
+    [Header("Current Car Stats")]
+    [SerializeField] private TextMeshProUGUI maxSpeedValue;
+    [SerializeField] private TextMeshProUGUI accelerationValue;
+    [SerializeField] private TextMeshProUGUI handlingValue;
+    [SerializeField] private TextMeshProUGUI brakeValue;
+
 
     private GameObject currentCarModel;
 
@@ -39,6 +46,7 @@ public class CarSelector : MonoBehaviour
     private void Init()
     {
         OnCarSelected(carData[0]);
+        this.gameObject.SetActive(false);
     }
 
     private void PopulateCarSlots()
@@ -62,5 +70,17 @@ public class CarSelector : MonoBehaviour
         currentCarModel = Instantiate(carData.carPrefab, carDisplayPoint.position, Quaternion.identity, carDisplayPoint);
        
         gameManager.SetSelectedCar(carData.carControllerPrefab);
+
+        CarStatsView(carData);
+    }
+
+    private void CarStatsView(CarData carData)
+    {
+        CarStats carStats = carData.carControllerPrefab.GetComponent<CarStats>();
+
+        maxSpeedValue.text = carStats.MaxSpeed.ToString("F1");
+        accelerationValue.text = carStats.Acceleration.ToString("F2");
+        handlingValue.text = carStats.SteelStrength.ToString("F2");
+        //brakeValue.text = carStats.BrakeForce.ToString("F2");
     }
 }

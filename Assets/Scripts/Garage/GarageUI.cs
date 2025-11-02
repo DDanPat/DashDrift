@@ -18,6 +18,7 @@ public class GarageUI : MonoBehaviour
 
     private void OnGameStartButtonClicked()
     {
+        inGameSceneName = gameManager.DataManager.RaceTrack;
         SceneLoader.LoadGameScene(inGameSceneName);
     }
 }

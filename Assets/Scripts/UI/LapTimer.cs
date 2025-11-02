@@ -18,14 +18,11 @@ public class LapTimer : MonoBehaviour
 
     private void Start()
     {
-        // 동일 오브젝트에 LapManager가 있다고 가정합니다.
         lapManager = GetComponent<LapManager>();
 
         // 최적 랩 타임 초기화 (UI도 업데이트)
         bestLapTime = float.MaxValue;
         UpdateBestLapTimeUI(bestLapTime);
-
-        StartLapTimer();
     }
 
     // --- 타이머 제어 메소드 ---

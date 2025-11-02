@@ -6,13 +6,14 @@ public enum RaceMode
 {
     Career,
     TimeAttack,
-    FreeRide
+    Custom
 }
 
 public class RaceStarter : MonoBehaviour
 {
     [SerializeField] private CarSpawner carSpawner;
     [SerializeField] private AISpawner aiSpawner;
+    [SerializeField] private LapTimer lapTimer;
     [SerializeField] private TextMeshProUGUI countdownText;
     [SerializeField] private RaceMode raceMode;
 
@@ -34,7 +35,7 @@ public class RaceStarter : MonoBehaviour
             case RaceMode.TimeAttack:
                 StartCoroutine(StartCountdown());
                 break;
-            case RaceMode.FreeRide:
+            case RaceMode.Custom:
                 isRaceStarted = true;
                 carSpawner.spawnedCar.GetComponent<CarController>().raceStarted = true;
                 break;
@@ -66,6 +67,8 @@ public class RaceStarter : MonoBehaviour
         // 텍스트 숨기기
         countdownText.gameObject.SetActive(false);
         isRaceStarted = true;
+
+        lapTimer.StartLapTimer();
     }
 
     public bool IsRaceStarted()

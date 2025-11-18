@@ -3116,6 +3116,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2216019828789665920, guid: b6dce67533954d141928549ef28e57b8, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2216019828789665920, guid: b6dce67533954d141928549ef28e57b8, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2216019828789665920, guid: b6dce67533954d141928549ef28e57b8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2216019828789665920, guid: b6dce67533954d141928549ef28e57b8, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2270954540194821750, guid: b6dce67533954d141928549ef28e57b8, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -3207,6 +3223,38 @@ PrefabInstance:
     - target: {fileID: 3780658457574856334, guid: b6dce67533954d141928549ef28e57b8, type: 3}
       propertyPath: m_Name
       value: UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 7544616657056182061, guid: b6dce67533954d141928549ef28e57b8, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7544616657056182061, guid: b6dce67533954d141928549ef28e57b8, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7544616657056182061, guid: b6dce67533954d141928549ef28e57b8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7544616657056182061, guid: b6dce67533954d141928549ef28e57b8, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8537761844818056365, guid: b6dce67533954d141928549ef28e57b8, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8537761844818056365, guid: b6dce67533954d141928549ef28e57b8, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8537761844818056365, guid: b6dce67533954d141928549ef28e57b8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8537761844818056365, guid: b6dce67533954d141928549ef28e57b8, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4279,7 +4327,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AISpawner
   aiCarPrefabs:
-  - {fileID: 2305112425254842783, guid: 9a7ed966914c496468da4a1fff1a7c44, type: 3}
   - {fileID: 1176767179299414962, guid: f5547afd8cf87bb4a8fb872cad81c90e, type: 3}
   - {fileID: 6571857586002928478, guid: 218028b4dc54b8646b02773bd751bb2c, type: 3}
   - {fileID: 3995626797343287303, guid: 0698c0667bca7de4597c3a8621022713, type: 3}
